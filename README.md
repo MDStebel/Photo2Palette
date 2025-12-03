@@ -104,4 +104,5 @@ photo2palette --image vertical_strip.png --vertical --name "Vertical" --format j
 - No Xcode needed
 
 Written by Michael Stebel
+
 © 2025 Mandelbrot Metal - All Rights Reserved.
