@@ -1,4 +1,3 @@
-# Photo2Palette
 # photo2palette
 
 `photo2palette` is a command-line tool that samples colors from an image and converts them into a palette for **Mandelbrot Metal**, either as:
