@@ -63,7 +63,7 @@ Other:
 
 ### Swift output
 ```bash
-photo2palette --image strip.png --name "Sunset" > Sunset.swift
+photo2palette --image strip.png --name "Sunset" --format json
 ```
 
 ### JSON output (importable)
@@ -102,3 +102,6 @@ photo2palette --image vertical_strip.png --vertical --name "Vertical" --format j
 
 - macOS, Swift 5.7+
 - No Xcode needed
+
+Written by Michael Stebel
+© 2025 Mandelbrot Metal - All Rights Reserved.
