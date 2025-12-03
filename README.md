@@ -101,6 +101,10 @@ photo2palette --image vertical_strip.png --vertical --name "Vertical" --format j
 
 ---
 
+## Troubleshooting
+
+If you experience any issues using this with Mandelbrot Metal's Manage Palettes, please let me know at https://mandelbrot-metal.com/contact.
+
 Written by Michael Stebel
 
 © 2025 Mandelbrot Metal - All Rights Reserved.
