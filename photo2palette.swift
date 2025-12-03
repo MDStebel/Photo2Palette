@@ -13,10 +13,10 @@ import UniformTypeIdentifiers
 struct Config {
     var imagePath: String = ""
     var name: String = "Imported Palette"
-    var steps: Int = 512
+    var steps: Int = 512              // default number of steps
     var vertical: Bool = false        // sample a column instead of a row
-    var format: String = "swift"      // "swift" or "json"
-
+    var format: String = "swift"      // "swift" (default) or "json"
+    
     // Optional adjustments (OFF by default for fidelity)
     var satBoost: Double = 1.0
     var gamma: Double = 1.0
@@ -27,40 +27,40 @@ struct Config {
 func parseArgs() -> Config {
     var cfg = Config()
     var it = CommandLine.arguments.dropFirst().makeIterator()
-
+    
     func next() -> String? { it.next() }
-
+    
     while let arg = next() {
         switch arg {
         case "-i", "--image":
             if let v = next() { cfg.imagePath = v }
-
+            
         case "-n", "--name":
             if let v = next() { cfg.name = v }
-
+            
         case "-s", "--steps":
             if let v = next(), let val = Int(v), val > 1 {
                 cfg.steps = val
             }
-
+            
         case "-v", "--vertical":
             cfg.vertical = true
-
+            
         case "-f", "--format":
             if let v = next() { cfg.format = v }
-
+            
         case "--sat":
             if let v = next(), let d = Double(v) { cfg.satBoost = d }
-
+            
         case "--gamma":
             if let v = next(), let d = Double(v) { cfg.gamma = d }
-
+            
         case "--stretch":
             cfg.stretch = true
-
+            
         case "-h", "--help":
             printUsageAndExit()
-
+            
         default:
             // First non-flag: treat as image path
             if cfg.imagePath.isEmpty {
@@ -70,7 +70,7 @@ func parseArgs() -> Config {
             }
         }
     }
-
+    
     if cfg.imagePath.isEmpty {
         printUsageAndExit()
     }
@@ -81,31 +81,31 @@ func printUsageAndExit() -> Never {
     let exe = (CommandLine.arguments.first as NSString?)?.lastPathComponent ?? "photo2palette"
     print("""
     \(exe) – Sample an image into a Mandelbrot Metal palette
-
+    
     Usage:
       \(exe) -i /path/to/image.png [options]
-
+    
     Required:
       -i, --image <path>       Input image path
-
+    
     Optional:
       -n, --name <name>        Palette name (default: "Imported Palette")
-      -s, --steps <N>          Number of stops (default: 512)
+      -s, --steps <N>          Number of steps (default: 512)
       -v, --vertical           Sample a vertical column instead of a horizontal row
       -f, --format <swift|json>
                                Output format:
                                  swift – PaletteOption.registerCustom(...) code
                                  json  – Mandelbrot Metal palette JSON file
-
+    
     Adjustments (applied after sampling, OFF by default):
       --sat <factor>           Saturation multiplier (e.g., 1.2 = 20% boost, default 1.0)
       --gamma <value>          Gamma correction (e.g., 0.8 for brighter midtones, default 1.0)
       --stretch                Stretch luminance to full 0–1 range
-
+    
     Examples:
       \(exe) -i strip.png -n "From Photo" > FromPhoto.swift
       \(exe) -i strip.png -n "From Photo" -f json > FromPhoto.palette.json
-
+    
     """)
     exit(1)
 }
@@ -125,21 +125,21 @@ func makeSRGBA8Image(from cg: CGImage, width: Int, height: Int) -> (CGImage, Dat
     let w = width
     let h = height
     guard w > 0, h > 0 else { return nil }
-
+    
     let bitsPerComponent = 8
     let bytesPerPixel = 4
     let bpr = w * bytesPerPixel
     var backing = Data(count: h * bpr)
-
+    
     let cs = CGColorSpace(name: CGColorSpace.sRGB)!
     let bitmapInfo = CGBitmapInfo(
         rawValue:
             CGImageAlphaInfo.premultipliedLast.rawValue |
-            CGBitmapInfo.byteOrder32Big.rawValue
+        CGBitmapInfo.byteOrder32Big.rawValue
     )
-
+    
     var outImage: CGImage?
-
+    
     backing.withUnsafeMutableBytes { ptr in
         guard let addr = ptr.baseAddress else { return }
         let ctx = CGContext(
@@ -152,12 +152,12 @@ func makeSRGBA8Image(from cg: CGImage, width: Int, height: Int) -> (CGImage, Dat
             bitmapInfo: bitmapInfo.rawValue
         )
         guard let ctx = ctx else { return }
-
+        
         ctx.interpolationQuality = .high
         ctx.draw(cg, in: CGRect(x: 0, y: 0, width: w, height: h))
         outImage = ctx.makeImage()
     }
-
+    
     guard let cgOut = outImage else { return nil }
     return (cgOut, backing)
 }
@@ -172,12 +172,12 @@ func hexToRGB(_ hex: String) -> RGB? {
         hexString.removeFirst()
     }
     guard hexString.count == 6 else { return nil }
-
+    
     var value: UInt64 = 0
     guard Scanner(string: hexString).scanHexInt64(&value) else {
         return nil
     }
-
+    
     let r = Double((value >> 16) & 0xFF) / 255.0
     let g = Double((value >> 8) & 0xFF) / 255.0
     let b = Double(value & 0xFF) / 255.0
@@ -229,21 +229,21 @@ func hslToRgb(h: Double, s: Double, l: Double) -> RGB {
 
 func applySatGammaStretch(_ rgb: RGB, sat: Double, gamma: Double, stretch: Bool) -> RGB {
     var c = rgb
-
+    
     // 1) Convert to HSL and apply saturation multiplier.
     if sat != 1.0 {
         let hsl = rgbToHsl(c)
         let newS = clamp(hsl.s * sat, 0, 1)
         c = hslToRgb(h: hsl.h, s: newS, l: hsl.l)
     }
-
+    
     // 2) Apply gamma to each channel in linear fashion.
     if gamma != 1.0 {
         c.r = pow(clamp(c.r), 1.0/gamma)
         c.g = pow(clamp(c.g), 1.0/gamma)
         c.b = pow(clamp(c.b), 1.0/gamma)
     }
-
+    
     // 3) Stretch luminance to 0–1 if requested.
     if stretch {
         let lumMin = min(c.r, min(c.g, c.b))
@@ -270,14 +270,14 @@ func hex(_ c: RGB) -> String {
 func extractStops(from cg: CGImage, cfg: Config) -> [(Double, String)]? {
     let targetW = cfg.vertical ? max(1, Int(round(Double(cg.width)  * Double(cfg.steps) / Double(max(cg.height,1))))) : cfg.steps
     let targetH = cfg.vertical ? cfg.steps : max(1, Int(round(Double(cg.height) * Double(cfg.steps) / Double(max(cg.width,1)))))
-
+    
     guard let (_, rgbaData) = makeSRGBA8Image(from: cg, width: targetW, height: targetH) else { return nil }
     let bytes = [UInt8](rgbaData) // RGBA
-
+    
     let bpr = targetW * 4
     var out: [(Double, String)] = []
     out.reserveCapacity(cfg.steps)
-
+    
     if cfg.vertical {
         let x = max(0, min(targetW-1, targetW/2))
         for i in 0..<cfg.steps {
@@ -342,14 +342,14 @@ func printJSON(name: String, stops: [(Double, String)]) {
             "t": t
         ]
     }
-
+    
     let dict: [String: Any] = [
         "colorSpace": "display-p3",
         "name": name,
         "schemaVersion": 1,
         "stops": convertedStops
     ]
-
+    
     let data = try! JSONSerialization.data(withJSONObject: dict, options: [.prettyPrinted])
     print(String(data: data, encoding: .utf8)!)
 }
