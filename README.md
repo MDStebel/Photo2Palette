@@ -2,7 +2,7 @@
 
 `photo2palette` is a command-line tool that samples colors from an image and converts them into a palette for **Mandelbrot Metal**, either as:
 
-- **Swift code** (`registerCustom(...)`) you can paste into the app, or  
+- **Swift code** (`registerCustom(...)`) not for users, or  
 - **A JSON palette file** that imports directly via *Manage Palettes → Import…*
 
 It supports horizontal or vertical sampling, configurable step counts (including 768-step Ultra-Wide palettes), and optional color adjustments.
@@ -45,7 +45,7 @@ Options:
   --name, -n <name>      Palette name (default: "Imported Palette")
   --steps, -s <N>        Number of stops (default: 512)
   --vertical             Sample a vertical column (default: horizontal row)
-  --format, -f           "swift" (default) or "json"
+  --format, -f           "swift" (default) or "json" (users MUST select json)
 
 Adjustments:
   --sat <factor>         Saturation multiplier (default: 1.0)
@@ -61,22 +61,18 @@ Other:
 
 ## Examples
 
-### Swift output
-```bash
-photo2palette --image strip.png --name "Sunset" --format json
-```
 
 ### JSON output (importable)
 ```bash
 photo2palette --image strip.png --name "Sunset" --format json > Sunset.palette.json
 ```
 
-### 768-stop Ultra-Wide palette
+### 768-stop Ultra-Wide palette (importable)
 ```bash
 photo2palette --image strip.png --name "Aurora UW" --steps 768 --format json > AuroraUW.palette.json
 ```
 
-### Vertical sampling
+### Vertical sampling (importable)
 ```bash
 photo2palette --image vertical_strip.png --vertical --name "Vertical" --format json > Vertical.palette.json
 ```
@@ -102,6 +98,8 @@ photo2palette --image vertical_strip.png --vertical --name "Vertical" --format j
 
 - macOS, Swift 5.7+
 - No Xcode needed
+
+---
 
 Written by Michael Stebel
 
