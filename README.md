@@ -59,6 +59,87 @@ Other:
 
 ---
 
+## Choosing & Preparing Source Images
+
+Creating a great Mandelbrot Metal palette starts with choosing the right source image. Because Photo2Palette extracts a continuous sequence of sampled colors, the quality and structure of the image directly affect the smoothness, contrast, and visual character of the resulting palette. Here are some guidelines to help you get the best results.
+
+### 1. Choose Images With Strong Color Structure
+Palettes work best when the source image has:
+- Clear gradients or transitions  
+- Distinct color regions  
+- Good separation between dark, mid, and highlight tones  
+- Minimal noise or compression artifacts
+
+**Great candidates:**
+- Sunset/sunrise photos  
+- Macro shots with continuous shading  
+- Abstract digital art  
+- Clean gradients or nebula-style images  
+
+**Less ideal:**
+- Highly detailed scenes with random textures  
+- Photos dominated by a single flat color  
+- Grainy low-light images
+
+### 2. Prefer Horizontal Gradients
+Photo2Palette samples the image horizontally (left → right) or vertically depending on your settings, but a **horizontal gradient** gives the most intuitive and predictable results.
+
+If your image has a natural gradient direction, orient it so the transition runs along the axis you plan to sample.
+
+### 3. Crop Strategically
+Cropping can dramatically improve palette quality.
+
+You should crop when:
+- Only one region of the image contains the gradient you want  
+- The full image contains distracting colors you *don’t* want  
+- You want to isolate a smooth transition from a noisy background  
+
+**Best practice:**
+- Crop to a thin horizontal strip that contains the precise gradient you want sampled  
+- Avoid large areas of flat/solid color unless that’s intentional  
+- Remove shadows, dark corners, or lens vignetting that could skew the gradient
+
+### 4. Use High-Resolution Images
+Higher resolution gives:
+- Smoother sampling  
+- Cleaner gradients  
+- More subtle color transitions  
+
+Low-res images can produce:
+- Banding  
+- Unwanted jumps in color  
+- Repeated blocks of similar tones  
+
+A width of **at least 1024px** is recommended for ultra-wide palettes.
+
+### 5. Avoid Extreme Dynamic Range (Unless Intended)
+Very dark shadows or clipped highlights can lead to:
+- Abrupt ramps  
+- Long stretches of black or white  
+- Harsh jumps in color  
+
+If an image has very deep shadows or extremely bright areas:
+- Crop them out  
+- Or lightly edit the image to compress extremes before sampling  
+
+### 6. Pre-Process If Needed
+If you want very fine control, simple image edits help:
+- Slight blur → smooths noise and texture  
+- Curves adjustment → enhances contrast in the range you care about  
+- Color grading → shifts the palette into a desired mood  
+
+This is optional, but useful for dialed-in control.
+
+### 7. Test & Iterate
+Because Photo2Palette outputs a fully importable `.json` file, you can:
+- Import multiple variants into Mandelbrot Metal  
+- Compare them using the palette picker  
+- Keep the best one or adjust your crop/image and run again  
+
+Tweaking just the crop or rotation of the source image often yields dramatically different palettes — experimenting is part of the fun.
+
+---
+
 ## Examples
 
 
