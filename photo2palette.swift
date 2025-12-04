@@ -11,16 +11,16 @@ import UniformTypeIdentifiers
 
 // MARK: - CLI Config
 struct Config {
-    var imagePath: String = ""
-    var name: String = "Imported Palette"
-    var steps: Int = 512              // default number of steps
-    var vertical: Bool = false        // default horizontal sampling
-    var format: String = "swift"      // "swift" or "json"
+    var imagePath: String = "" 
+    var name: String = "Imported Palette" // default file name
+    var steps: Int = 512                  // default number of steps
+    var vertical: Bool = false            // default horizontal sampling
+    var format: String = "swift"          // "swift" or "json"
     
     // color adjustments
-    var satBoost: Double = 1.0        // saturation multiplier
-    var gamma: Double = 1.0           // gamma correction
-    var stretch: Double = 1.0         // contrast-ish stretch
+    var satBoost: Double = 1.0            // saturation multiplier
+    var gamma: Double = 1.0               // gamma correction
+    var stretch: Double = 1.0             // contrast-ish stretch
 }
 
 // MARK: - Small Helpers
