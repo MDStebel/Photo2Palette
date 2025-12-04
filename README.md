@@ -160,7 +160,10 @@ photo2palette --image vertical_strip.png --vertical --name "Vertical" --format j
 
 ---
 
-## JSON Schema
+## JSON Schema (Updated)
+
+Mandelbrot Metal’s palette importer requires a `type` field in addition to the other properties.  
+The CLI now emits this field automatically when using `--format json`.
 
 ```json
 {
@@ -169,9 +172,12 @@ photo2palette --image vertical_strip.png --vertical --name "Vertical" --format j
   "schemaVersion": 1,
   "stops": [
     { "r": 0.123, "g": 0.456, "b": 0.789, "t": 0.0000 }
-  ]
+  ],
+  "type": "palette"
 }
 ```
+
+Any JSON palette missing `"type": "palette"` may fail to import.
 
 ---
 
