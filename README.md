@@ -160,7 +160,7 @@ photo2palette --image vertical_strip.png --vertical --name "Vertical" --format j
 
 ---
 
-## JSON Schema (Updated)
+## JSON Schema
 
 Mandelbrot Metal’s palette importer requires a `type` field in addition to the other properties.  
 The CLI now emits this field automatically when using `--format json`.
