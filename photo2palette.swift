@@ -2,7 +2,7 @@
 //
 //  photo2palette.swift
 //  Created by Michael Stebel on 8/8/25.
-//  Updated on 12/3/25.
+//  Updated on 12/5/25.
 //
 import Foundation
 import CoreGraphics
@@ -11,16 +11,16 @@ import UniformTypeIdentifiers
 
 // MARK: - CLI Config
 struct Config {
-    var imagePath: String = "" 
-    var name: String = "Imported Palette" // default file name
-    var steps: Int = 512                  // default number of steps
-    var vertical: Bool = false            // default horizontal sampling
-    var format: String = "swift"          // "swift" or "json"
+    var imagePath: String = ""
+    var name: String = "Imported Palette"
+    var steps: Int = 512              // default number of steps
+    var vertical: Bool = false        // default horizontal sampling
+    var format: String = "swift"      // "swift" or "json"
     
     // color adjustments
-    var satBoost: Double = 1.0            // saturation multiplier
-    var gamma: Double = 1.0               // gamma correction
-    var stretch: Double = 1.0             // contrast-ish stretch
+    var satBoost: Double = 1.0        // saturation multiplier
+    var gamma: Double = 1.0           // gamma correction
+    var stretch: Double = 1.0         // contrast-ish stretch
 }
 
 // MARK: - Small Helpers
@@ -315,10 +315,8 @@ func printSwift(name: String, stops: [(Double, String)]) {
         stops: [
     """)
     for (i, s) in stops.enumerated() {
-        let t = s.0
-        let hex = s.1
         let comma = (i == stops.count - 1) ? "" : ","
-        print("            (\(String(format: "%.15f", t)), \"\(hex)\")\(comma)")
+        print(String(format: "            (%.5f, UIColor(hex: \"%@\"))%@", s.0, s.1, comma))
     }
     print("""
         ]
