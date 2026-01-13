@@ -183,7 +183,7 @@ Any JSON palette missing `"type": "palette"` may fail to import.
 
 ## Requirements
 
-- macOS, Swift 5.7+
+- macOS, Swift 6.0+
 - No Xcode needed
 
 ---
@@ -194,4 +194,4 @@ If you experience any issues using this with Mandelbrot Metal's Manage Palettes,
 
 Written by Michael Stebel
 
-© 2025 Mandelbrot Metal - All Rights Reserved.
+© 2025-2026 Mandelbrot Metal. All Rights Reserved.
