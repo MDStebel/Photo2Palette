@@ -11,7 +11,7 @@ The default output is importable JSON. Swift output remains available for palett
 - JSON is now the default output format.
 - The default source resolution is 1,024 samples.
 - Compact output uses 64 evenly spaced anchors, matching the app.
-- The **--exact** option retains all sampled stops for a non-interpolated LUT.
+- The **--exact** option retains every sampled stop instead of reducing the result to compact anchors. In Mandelbrot Metal, pair the imported palette with Exact LUT when a discrete nearest-sample look is desired.
 - The sampling axis defaults to **auto**: portrait images use a vertical center slice and landscape or square images use a horizontal center slice.
 - Defaults match the app: saturation 1.12, gamma 0.95, and contrast stretch enabled at 1.2.
 - Rasterization is explicitly color managed as Display P3 or sRGB.
@@ -22,7 +22,13 @@ The default output is importable JSON. Swift output remains available for palett
 
 ## Installation
 
-Make the script executable:
+From the repository root, the utility can be run directly through Swift without changing file permissions:
+
+~~~bash
+swift "Command Line Code/photo2palette.swift" --help
+~~~
+
+Alternatively, enter the `Command Line Code` directory and make the script executable:
 
 ~~~bash
 chmod +x photo2palette.swift
